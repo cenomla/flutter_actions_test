@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build_snap:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -32,3 +32,45 @@ jobs:
         with:
           name: flutter-actions-test_0.1.0_amd64.snap
           path: flutter-actions-test_0.1.0_amd64.snap
+  build_web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+      - run: flutter pub get
+      - run: flutter build web
+      - uses: actions/upload-artifact@master
+        with:
+          name: web-build
+          path: build/web
+  build_android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-actions@v1
+        with:
+          channel: 'dev'
+      - run: flutter pub get
+      - run: flutter build apk
+      - uses: actions/upload-artifact@master
+        with:
+          name: android-build
+          path: build/app/outputs/bundle/release
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-actions@v1
+        with:
+          channel: 'dev'
+      - run: flutter pub get
+      - run: flutter build windows
+      - uses: actions/upload-artifact@master
+        with:
+          name: windows-build
+          path: build/windows/debug
