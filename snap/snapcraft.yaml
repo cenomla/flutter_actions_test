@@ -1,0 +1,22 @@
+name: flutter-actions-test
+version: 0.1.0
+summary: flutter actions test
+description: for learning purposes
+
+confinement: strict
+base: core18
+grade: stable
+
+apps:
+  flutter-actions-test:
+    command: flutter_actions_test
+    extensions: [flutter-master]
+    plugs:
+    - network
+
+parts:
+  flutter-actions-test:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+
