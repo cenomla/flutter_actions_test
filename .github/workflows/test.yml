@@ -28,3 +28,7 @@ jobs:
         with:
           use_lxd: true
       - run: sg lxd -c 'snapcraft --use-lxd'
+      - uses: actions/upload-artifact@master
+        with:
+          name: flutter-actions-test_0.1.0_amd64.snap
+          path: flutter-actions-test_0.1.0_amd64.snap
