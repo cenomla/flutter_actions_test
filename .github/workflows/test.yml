@@ -57,7 +57,7 @@ jobs:
         with:
           channel: 'dev'
       - run: flutter pub get
-      - run: flutter build apk
+      - run: flutter build appbundle
       - uses: actions/upload-artifact@master
         with:
           name: android-build
