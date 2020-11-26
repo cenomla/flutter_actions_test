@@ -91,4 +91,31 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: windows-build
-          path: build/windows/debug/bundle
+          path: build/windows/release/bundle
+  build_ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - uses: actions/upload-artifact@master
+        with:
+          name: ios-build
+          path: build/ios/outputs/bundle/release
+  build_macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+      - run: flutter config --enable-macos-desktop
+      - run: flutter pub get
+      - run: flutter build macos
+      - uses: actions/upload-artifact@master
+        with:
+          name: macos-build
+          path: build/macos/release/bundle
