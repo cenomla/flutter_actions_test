@@ -90,11 +90,12 @@ jobs:
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
+      - run: (cd build\windows\runner\ && tar.exe -a -c -f windows_build.zip release)
       - run: Tree /F build
       - uses: actions/upload-artifact@master
         with:
           name: windows-build
-          path: build/windows/release/bundle
+          path: build/windows/runner/windows_build.zip
   build_ios:
     runs-on: macos-latest
     steps:
@@ -149,7 +150,7 @@ jobs:
           <li><a href="snap-build/flutter-actions-test_0.1.0_amd64.snap">snap</a></li>
           <li><a href="linux-build/linux_build.tar.xz">linux</a></li>
           <li><a href="web-build">web</a></li>
-          <li><a href="android-build/android_build.tar.xz">android</a></li>
+          <li><a href="android-build/app-release.aab">android</a></li>
           <li><a href="windows-build/windows_build.zip">windows</a></li>
           <li><a href="#">ios</a></li>
           <li><a href="macos-build/macos_build.tar.xz">macos</a></li>
