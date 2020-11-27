@@ -49,15 +49,6 @@ jobs:
         with:
           name: linux-build
           path: build/linux/release/linux_build.tar.xz
-      - uses: actions/download-artifact@v2
-        with:
-          name: linux-build
-          path: public
-      - run: ls -Al public
-      - uses: peaceiris/actions-gh-pages@v3.7.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
   build_web:
     runs-on: ubuntu-latest
     steps:
@@ -84,6 +75,7 @@ jobs:
           channel: 'dev'
       - run: flutter pub get
       - run: flutter build appbundle
+      - run: ls -AlR build
       - uses: actions/upload-artifact@master
         with:
           name: android-build
@@ -98,6 +90,7 @@ jobs:
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
+      - run: ls -AlR build
       - uses: actions/upload-artifact@master
         with:
           name: windows-build
@@ -111,6 +104,7 @@ jobs:
           channel: 'dev'
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
+      - run: ls -AlR build
       - uses: actions/upload-artifact@master
         with:
           name: ios-build
@@ -125,7 +119,20 @@ jobs:
       - run: flutter config --enable-macos-desktop
       - run: flutter pub get
       - run: flutter build macos
+      - run: ls -AlR build
       - uses: actions/upload-artifact@master
         with:
           name: macos-build
           path: build/macos/release/bundle
+  deploy:
+    needs: [build_snap, build_linux, build_web, build_android, build_windows, build_ios, build_macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: public
+      - run: ls -AlR public
+      - uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
