@@ -44,10 +44,13 @@ jobs:
       - run: flutter config --enable-linux-desktop
       - run: flutter pub get
       - run: flutter build linux
+      - run: cd build/linux/release
+      - run: tar cfJv linux_build.tar.xz bundle
+      - run: cd ../../..
       - uses: actions/upload-artifact@master
         with:
           name: linux-build
-          path: build/linux/release/bundle
+          path: build/linux/release/linux_build.tar.xz
       - uses: actions/download-artifact@v2
         with:
           name: linux-build
