@@ -128,9 +128,35 @@ jobs:
     needs: [build_snap, build_linux, build_web, build_android, build_windows, build_ios, build_macos]
     runs-on: ubuntu-latest
     steps:
+      - run: mkdir public
       - uses: actions/download-artifact@v2
         with:
           path: public
+      - run: touch public/index.html
+      - run: |
+          cat > public/index.html <<EOL
+          <!doctype html>
+          <html>
+          <head>
+          <meta encoding="utf-8"/>
+          <title>flutter action test builds</title>
+          </head>
+          <body>
+          <div>
+          <h3>Latest Builds (${{ github.sha }})</h3>
+          <ul>
+          <li><a>snap</a></li>
+          <li><a>linux</a></li>
+          <li><a>web</a></li>
+          <li><a>android</a></li>
+          <li><a>windows</a></li>
+          <li><a>ios</a></li>
+          <li><a>macos</a></li>
+          </ul>
+          </div>
+          </body>
+          </html>
+          EOL
       - run: ls -AlR public
       - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
