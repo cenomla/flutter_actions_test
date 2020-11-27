@@ -48,6 +48,15 @@ jobs:
         with:
           name: linux-build
           path: build/linux/release/bundle
+      - run: mkdir public
+      - uses: actions/download-artifact@v2
+        with:
+          name: linux-build
+          path: public
+      - uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
   build_web:
     runs-on: ubuntu-latest
     steps:
