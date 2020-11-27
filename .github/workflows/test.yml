@@ -90,7 +90,7 @@ jobs:
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
-      - run: Tree /F
+      - run: Tree /F build
       - uses: actions/upload-artifact@master
         with:
           name: windows-build
