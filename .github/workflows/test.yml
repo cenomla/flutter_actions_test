@@ -30,7 +30,7 @@ jobs:
       - run: sg lxd -c 'snapcraft --use-lxd'
       - uses: actions/upload-artifact@master
         with:
-          name: flutter-actions-test_0.1.0_amd64.snap
+          name: snap-build
           path: flutter-actions-test_0.1.0_amd64.snap
   build_linux:
     runs-on: ubuntu-latest
@@ -119,11 +119,12 @@ jobs:
       - run: flutter config --enable-macos-desktop
       - run: flutter pub get
       - run: flutter build macos
+      - run: (cd build/macos/Build/Products/Release && tar cfJv macos_build.tar.xz flutter_actions_test.app)
       - run: ls -AlR build
       - uses: actions/upload-artifact@master
         with:
           name: macos-build
-          path: build/macos/release/bundle
+          path: build/macos/Build/Products/Release/macos_build.tar.xz
   deploy:
     needs: [build_snap, build_linux, build_web, build_android, build_windows, build_macos]
     runs-on: ubuntu-latest
@@ -145,13 +146,13 @@ jobs:
           <div>
           <h3>Latest Builds (${{ github.sha }})</h3>
           <ul>
-          <li><a>snap</a></li>
-          <li><a>linux</a></li>
-          <li><a>web</a></li>
-          <li><a>android</a></li>
-          <li><a>windows</a></li>
-          <li><a>ios</a></li>
-          <li><a>macos</a></li>
+          <li><a href="snap-build/flutter-actions-test_0.1.0_amd64.snap">snap</a></li>
+          <li><a href="linux-build/linux_build.tar.xz">linux</a></li>
+          <li><a href="web-build">web</a></li>
+          <li><a href="android-build/android_build.tar.xz">android</a></li>
+          <li><a href="windows-build/windows_build.zip">windows</a></li>
+          <li><a href="#">ios</a></li>
+          <li><a href="macos-build/macos_build.tar.xz">macos</a></li>
           </ul>
           </div>
           </body>
