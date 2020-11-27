@@ -48,7 +48,6 @@ jobs:
         with:
           name: linux-build
           path: build/linux/release/bundle
-      - run: mkdir public
       - uses: actions/download-artifact@v2
         with:
           name: linux-build
