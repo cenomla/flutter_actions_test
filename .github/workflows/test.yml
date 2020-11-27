@@ -90,7 +90,7 @@ jobs:
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
-      - run: ls -AlR build
+      - run: Tree /F
       - uses: actions/upload-artifact@master
         with:
           name: windows-build
@@ -125,7 +125,7 @@ jobs:
           name: macos-build
           path: build/macos/release/bundle
   deploy:
-    needs: [build_snap, build_linux, build_web, build_android, build_windows, build_ios, build_macos]
+    needs: [build_snap, build_linux, build_web, build_android, build_windows, build_macos]
     runs-on: ubuntu-latest
     steps:
       - run: mkdir public
